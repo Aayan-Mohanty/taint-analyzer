@@ -1,0 +1,19 @@
+{
+  "sources": [
+    "input",
+    "sys.stdin.readline",
+    "request.args.get",
+    "request.form.get"
+  ],
+  "sinks": {
+    "cursor.execute": { "category": "sql_injection", "args": [0] },
+    "os.system":      { "category": "command_injection", "args": [0] },
+    "os.popen":       { "category": "command_injection", "args": [0] },
+    "eval":           { "category": "code_injection", "args": [0] },
+    "exec":           { "category": "code_injection", "args": [0] }
+  },
+  "sanitizers": [
+    "int",
+    "float"
+  ]
+}
