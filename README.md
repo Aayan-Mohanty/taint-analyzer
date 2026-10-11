@@ -16,6 +16,28 @@ python3 -m pytest                                    # run the tests
 
 Exit status: 0 = no warnings, 1 = warnings found, 2 = error.
 
+## Web app
+
+```
+python3 -m webapp.server          # then open http://127.0.0.1:8000
+python3 -m webapp.server --port 9000
+```
+
+Paste code or pick a sample, then choose the analysis (CFG dataflow or
+linear). Three views: warnings (click a line number to jump to it), the
+control-flow graph with each block's IN/OUT taint sets, and a taint-set
+table. Tainted data is shown in red, clean data in green.
+
+The backend (`webapp/server.py`) uses only the Python standard library and
+listens on 127.0.0.1 by default, so only this computer can reach it.
+Submitted code is parsed with `ast.parse`, never executed.
+
+| Endpoint | Purpose |
+|---|---|
+| `GET /` | The page (`webapp/static/index.html`) |
+| `GET /api/samples` | The programs in `tests/samples/` |
+| `POST /api/analyze` | Body `{"code": "...", "mode": "cfg" or "linear"}`; returns findings, CFG blocks and taint sets as JSON |
+
 ## Pipeline
 
 ```
@@ -32,6 +54,7 @@ source file --(ast.parse)--> AST --(cfg.py)--> CFG per function --(analysis)--> 
 | `cfg.py` | 6 | Control-flow graph builder |
 | `dataflow.py` | 7 | Worklist dataflow analysis over the CFG (the default analysis) |
 | `report.py`, `__main__.py` | 9 | Output and command-line interface |
+| `webapp/` | - | Web backend (`server.py`) and frontend (`static/index.html`) |
 
 ## Status
 

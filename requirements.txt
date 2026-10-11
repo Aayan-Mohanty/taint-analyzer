@@ -1,0 +1,2 @@
+# No third-party packages are needed to run the analyzer or the web app.
+# pytest is only needed for running the tests:  pip install pytest
